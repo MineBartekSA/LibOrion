@@ -1,0 +1,16 @@
+[
+{
+  "modid": "liborion",
+  "name": "LibOrion",
+  "description": "Library for better Minecraft mod creation!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["MineBartekSA"],
+  "credits": "The Forge and FML guys, for making Minecraft Forge!",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

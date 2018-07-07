@@ -1,3 +1,13 @@
+run/
+build/
+LibOrion_Client.launch
+LibOrion_Server.launch
+.project
+.classpath
+.gradle/
+.settings/
+eclipse/
+
 # Compiled class file
 *.class
 
