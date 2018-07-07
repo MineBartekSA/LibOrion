@@ -1,5 +1,6 @@
 package com.minebarteksa.orion;
 
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.Logger;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -10,6 +11,12 @@ public class Orion
 	public static final String ModID = "liborion";
 	public static final String ModName = "LibOrion";
 	public static final String Version = "1.0";
+
+	@Mod.Instance(ModID)
+	public static Orion instance;
+
+	@SidedProxy(clientSide = "com.minebarteksa.orion.proxy.ClientProxy", serverSide = "com.minebarteksa.orion.proxy.CommonProxy")
+	public static SidedProxy proxy;
 
 	public static Logger log;
 
