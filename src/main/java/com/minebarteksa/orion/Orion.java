@@ -1,5 +1,6 @@
 package com.minebarteksa.orion;
 
+import com.minebarteksa.orion.proxy.CommonProxy;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +17,7 @@ public class Orion
 	public static Orion instance;
 
 	@SidedProxy(clientSide = "com.minebarteksa.orion.proxy.ClientProxy", serverSide = "com.minebarteksa.orion.proxy.CommonProxy")
-	public static SidedProxy proxy;
+	public static CommonProxy proxy;
 
 	public static Logger log;
 
