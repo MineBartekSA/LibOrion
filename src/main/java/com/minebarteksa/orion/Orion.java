@@ -1,5 +1,6 @@
 package com.minebarteksa.orion;
 
+import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -62,5 +63,11 @@ public class Orion
 		{
 			pt.registerItemModel();
 		}
+
+		@SubscribeEvent
+		public static void onLeftClick(MouseEvent ev)
+        {
+            // To create a OrionMouseEvents!
+        }
 	}
 }

@@ -1,6 +1,7 @@
 package com.minebarteksa.orion.proxy;
 
 import com.minebarteksa.orion.Orion;
+import com.minebarteksa.orion.particle.OrionParticles;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -20,6 +21,7 @@ public class ClientProxy extends CommonProxy
   public void init(FMLInitializationEvent ev)
   {
     super.init(ev);
+    OrionParticles.init();
   }
 
   @Override
