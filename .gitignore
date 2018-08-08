@@ -7,6 +7,9 @@ LibOrion_Server.launch
 .gradle/
 .settings/
 eclipse/
+*.iml
+*.ipr
+*.iws
 
 # Compiled class file
 *.class

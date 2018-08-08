@@ -1,5 +1,8 @@
 package com.minebarteksa.orion.proxy;
 
+import com.minebarteksa.orion.Orion;
+import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -23,6 +26,12 @@ public class ClientProxy extends CommonProxy
   public void postInit(FMLPostInitializationEvent ev)
   {
     super.postInit(ev);
+
+    ParticleManager pm = Minecraft.getMinecraft().effectRenderer;
+    if(pm != null)
+    {
+      Orion.log.info(pm.getStatistics());
+    }
   }
 
   public String locaize(String unlocalized, Object... args)

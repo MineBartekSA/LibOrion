@@ -1,5 +1,9 @@
 package com.minebarteksa.orion.particle;
 
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.entity.player.EntityPlayer;
 import com.minebarteksa.orion.Orion;
 import net.minecraft.client.util.ITooltipFlag;
 import java.util.List;
@@ -20,10 +24,17 @@ public class ParticleTester extends ItemBase
   }
 
   @Override
+  public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+  {
+    worldIn.spawnParticle(EnumParticleTypes.NOTE, playerIn.posX, playerIn.posY, playerIn.posZ, 10000, 10000, 10000, null);
+    return super.onItemRightClick(worldIn, playerIn, handIn);
+  }
+
+  @Override
   public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
   {
     tooltip.add("Debug Tool!");
-    tooltip.add("Use /setparticle command to set particle type");
+    tooltip.add("Use Shift+RightClick to change particle type!");
     tooltip.add("Paricle type: ???");
   }
 }

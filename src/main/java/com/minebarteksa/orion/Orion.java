@@ -1,5 +1,12 @@
 package com.minebarteksa.orion;
 
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import com.minebarteksa.orion.particle.ParticleTester;
+import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import com.minebarteksa.orion.proxy.CommonProxy;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod;
@@ -20,9 +27,40 @@ public class Orion
 	public static CommonProxy proxy;
 
 	public static Logger log;
+	public static ParticleTester pt = new ParticleTester();
 
+	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent ev)
 	{
 		log = ev.getModLog();
+		proxy.preInit(ev);
+	}
+
+	@Mod.EventHandler
+	public void init(FMLInitializationEvent ev)
+	{
+		proxy.init(ev);
+	}
+
+	@Mod.EventHandler
+	public void postInit(FMLPostInitializationEvent ev)
+	{
+		proxy.postInit(ev);
+	}
+
+	@Mod.EventBusSubscriber
+	public static class EventBusHandler
+	{
+		@SubscribeEvent
+		public static void registerItems(RegistryEvent.Register<Item> ev)
+		{
+			ev.getRegistry().registerAll(pt);
+		}
+
+		@SubscribeEvent
+		public static void registerItems(ModelRegistryEvent ev)
+		{
+			pt.registerItemModel();
+		}
 	}
 }
