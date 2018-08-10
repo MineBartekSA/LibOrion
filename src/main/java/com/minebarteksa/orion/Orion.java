@@ -4,7 +4,8 @@ import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import com.minebarteksa.orion.particle.ParticleTester;
+import com.minebarteksa.orion.debugtools.ParticleTester;
+import com.minebarteksa.orion.debugtools.RotationTester;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -29,6 +30,7 @@ public class Orion
 
 	public static Logger log;
 	public static ParticleTester pt = new ParticleTester();
+	public static RotationTester rt = new RotationTester();
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent ev)
@@ -55,13 +57,14 @@ public class Orion
 		@SubscribeEvent
 		public static void registerItems(RegistryEvent.Register<Item> ev)
 		{
-			ev.getRegistry().registerAll(pt);
+			ev.getRegistry().registerAll(pt, rt);
 		}
 
 		@SubscribeEvent
 		public static void registerItems(ModelRegistryEvent ev)
 		{
 			pt.registerItemModel();
+			rt.registerItemModel();
 		}
 
 		@SubscribeEvent

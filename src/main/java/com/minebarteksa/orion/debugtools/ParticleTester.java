@@ -1,13 +1,13 @@
-package com.minebarteksa.orion.particle;
+package com.minebarteksa.orion.debugtools;
 
+import com.minebarteksa.orion.particle.OrionParticles;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import com.minebarteksa.orion.Orion;
 import net.minecraft.client.util.ITooltipFlag;
 import java.util.List;
-
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.item.ItemStack;
@@ -59,18 +59,21 @@ public class ParticleTester extends ItemBase
         } else {
             if(isIdInCrashList(partId) || OrionParticles.getParticleNameByID(partId).toString() == "null:null")
                 Minecraft.getMinecraft().ingameGUI.setOverlayMessage("Nothing! Sorry, but this particle crashes the game!", false);
-            else
+            else {
                 OrionParticles.spawnParticle(OrionParticles.getParticleNameByID(partId), playerIn.posX, playerIn.posY, playerIn.posZ, 1, 0, 0);
+            }
         }
     }
 
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-        tooltip.add("Debug Tool!");
-        tooltip.add("Use Shift+RightClick to change particle type!");
-        tooltip.add("Not every particle will work, some like minecraft:iconcrack crash the game!");
-        tooltip.add("Particle type: " + OrionParticles.getParticleNameByID(partId));
+        if(!stack.isItemEnchanted())
+            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 255);
+        tooltip.add("\u00A7eLibOrion Debug Tool!");
+        tooltip.add("\u00A7fUse Shift+RightClick to change particle type!");
+        tooltip.add("\u00A7fNot every particle will work, some like minecraft:iconcrack crash the game!");
+        tooltip.add("\u00A72Current Particle type: " + OrionParticles.getParticleNameByID(partId));
     }
 
     private boolean isIdInCrashList(int id)

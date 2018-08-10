@@ -28,12 +28,6 @@ public class ClientProxy extends CommonProxy
   public void postInit(FMLPostInitializationEvent ev)
   {
     super.postInit(ev);
-
-    ParticleManager pm = Minecraft.getMinecraft().effectRenderer;
-    if(pm != null)
-    {
-      Orion.log.info(pm.getStatistics());
-    }
   }
 
   public String locaize(String unlocalized, Object... args)
