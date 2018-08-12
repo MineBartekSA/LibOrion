@@ -1,5 +1,7 @@
 package com.minebarteksa.orion;
 
+import com.minebarteksa.orion.debugtools.MouseDebug;
+import com.minebarteksa.orion.events.OrionMouseEvents;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -31,6 +33,7 @@ public class Orion
 	public static Logger log;
 	public static ParticleTester pt = new ParticleTester();
 	public static RotationTester rt = new RotationTester();
+	public static MouseDebug md = new MouseDebug();
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent ev)
@@ -57,7 +60,7 @@ public class Orion
 		@SubscribeEvent
 		public static void registerItems(RegistryEvent.Register<Item> ev)
 		{
-			ev.getRegistry().registerAll(pt, rt);
+			ev.getRegistry().registerAll(pt, rt, md);
 		}
 
 		@SubscribeEvent
@@ -65,12 +68,23 @@ public class Orion
 		{
 			pt.registerItemModel();
 			rt.registerItemModel();
+			md.registerItemModel();
 		}
 
 		@SubscribeEvent
-		public static void onLeftClick(MouseEvent ev)
+		public static void onMouseEvent(MouseEvent ev) //Runs only in game!
         {
-            // To create a OrionMouseEvents!
+        	if(ev.getButton() != -1)
+			{
+				if(ev.getButton() == OrionMouseEvents.MouseButtons.LeftClick.Type())
+					OrionMouseEvents.LC.invokeListeners();
+				if(ev.getButton() == OrionMouseEvents.MouseButtons.RightClick.Type())
+					OrionMouseEvents.RC.invokeListeners();
+				if(ev.getButton() == OrionMouseEvents.MouseButtons.MiddleClick.Type())
+					OrionMouseEvents.MC.invokeListeners();
+			}
+			if(ev.getDwheel() != 0)
+				OrionMouseEvents.SE.invokeWithValue(ev.getDwheel());
         }
 	}
 }
