@@ -1,7 +1,9 @@
 package com.minebarteksa.orion;
 
+import com.minebarteksa.orion.debugtools.DebugBlock;
 import com.minebarteksa.orion.debugtools.MouseDebug;
 import com.minebarteksa.orion.events.OrionMouseEvents;
+import net.minecraft.block.Block;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -31,15 +33,19 @@ public class Orion
 	public static CommonProxy proxy;
 
 	public static Logger log;
+	public static OrionRegistry registry = new OrionRegistry();
 	public static ParticleTester pt = new ParticleTester();
 	public static RotationTester rt = new RotationTester();
 	public static MouseDebug md = new MouseDebug();
+	public static DebugBlock db = new DebugBlock();
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent ev)
 	{
 		log = ev.getModLog();
 		proxy.preInit(ev);
+		OrionRegistry.register(pt, rt, md);
+		OrionRegistry.register(db);
 	}
 
 	@Mod.EventHandler
@@ -58,18 +64,13 @@ public class Orion
 	public static class EventBusHandler
 	{
 		@SubscribeEvent
-		public static void registerItems(RegistryEvent.Register<Item> ev)
-		{
-			ev.getRegistry().registerAll(pt, rt, md);
-		}
+		public static void registerItems(RegistryEvent.Register<Item> ev) { registry.registerItems(ev.getRegistry()); }
 
 		@SubscribeEvent
-		public static void registerItems(ModelRegistryEvent ev)
-		{
-			pt.registerItemModel();
-			rt.registerItemModel();
-			md.registerItemModel();
-		}
+		public static void registerItems(ModelRegistryEvent ev) { registry.registerItemModels(); }
+
+		@SubscribeEvent
+		public static void registerBlocks(RegistryEvent.Register<Block> ev) { registry.registerBlocks(ev.getRegistry()); }
 
 		@SubscribeEvent
 		public static void onMouseEvent(MouseEvent ev) //Runs only in game!

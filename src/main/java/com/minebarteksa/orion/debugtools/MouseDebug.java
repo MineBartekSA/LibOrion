@@ -47,6 +47,8 @@ public class MouseDebug extends ItemBase implements OrionListener
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        if(!stack.isItemEnchanted())
+            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 255);
         tooltip.add("\u00A7eLibOrion Debug Tool!");
         tooltip.add("\u00A7fThis tools tracks the count of clicks and scroll direction");
         tooltip.add("\u00A7fIt uses LibOrion's own easy Event system");

@@ -7,6 +7,10 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.lang.annotation.Inherited;
+
 public class ItemBase extends Item
 {
 	protected String name;
@@ -21,13 +25,10 @@ public class ItemBase extends Item
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void registerItemModel()
-	{
-		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(modelDomain + ":" + name, "inventory"));
-	}
+	public void registerItemModel() { ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(modelDomain + ":" + name, "inventory")); }
 
 	@Override
-	public ItemBase setCreativeTab(CreativeTabs tab)
+	public ItemBase setCreativeTab( CreativeTabs tab)
 	{
 		super.setCreativeTab(tab);
 		return this;

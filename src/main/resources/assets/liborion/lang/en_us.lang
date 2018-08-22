@@ -1,3 +1,5 @@
 item.particle_tester.name=Particle Tester
 item.rotation_tester.name=Rotation Tester
 item.mouse_debug.name=Mouse Debug
+
+tile.debug_block.name=Debug Block

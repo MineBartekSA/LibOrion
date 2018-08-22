@@ -25,10 +25,7 @@ public class BlockBase extends Block
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void registerItemModel(Item itemBlock)
-	{
-		ModelLoader.setCustomModelResourceLocation(itemBlock, 0, new ModelResourceLocation(modelDomain + ":" + name, "inventory"));
-	}
+	public void registerItemModel() { ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(modelDomain + ":" + name, "inventory")); }
 
 	public Item getItemBlock()
 	{
