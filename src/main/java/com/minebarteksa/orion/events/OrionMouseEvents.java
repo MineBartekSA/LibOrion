@@ -7,7 +7,7 @@ public class OrionMouseEvents
     public static OrionMouseEvents.MiddleClick MC = new OrionMouseEvents.MiddleClick();
     public static OrionMouseEvents.ScrollEvent SE = new OrionMouseEvents.ScrollEvent();
 
-    public static class LeftClick extends OrionEvents
+    public static class LeftClick extends OrionEvent
     {
         public boolean start;
 
@@ -18,7 +18,7 @@ public class OrionMouseEvents
         }
     }
 
-    public static class RightClick extends OrionEvents
+    public static class RightClick extends OrionEvent
     {
         public boolean start;
 
@@ -29,7 +29,7 @@ public class OrionMouseEvents
         }
     }
 
-    public static class MiddleClick extends OrionEvents
+    public static class MiddleClick extends OrionEvent
     {
         public boolean start;
 
@@ -40,7 +40,7 @@ public class OrionMouseEvents
         }
     }
 
-    public static class ScrollEvent extends OrionEvents
+    public static class ScrollEvent extends OrionEvent
     {
         public int value;
         public void invokeWithValue(int value)

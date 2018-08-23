@@ -2,9 +2,12 @@ package com.minebarteksa.orion;
 
 import com.minebarteksa.orion.debugtools.DebugBlock;
 import com.minebarteksa.orion.debugtools.MouseDebug;
+import com.minebarteksa.orion.events.OrionBlockEvents;
 import com.minebarteksa.orion.events.OrionMouseEvents;
 import net.minecraft.block.Block;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -71,6 +74,12 @@ public class Orion
 
 		@SubscribeEvent
 		public static void registerBlocks(RegistryEvent.Register<Block> ev) { registry.registerBlocks(ev.getRegistry()); }
+
+		@SubscribeEvent
+		public static void registerSounds(RegistryEvent.Register<SoundEvent> ev) { registry.registerSounds(ev.getRegistry()); }
+
+        @SubscribeEvent
+        public static void onBlockBreak(BlockEvent.BreakEvent ev) { OrionBlockEvents.BB.invokeWithValue(ev.getPos()); }
 
 		@SubscribeEvent
 		public static void onMouseEvent(MouseEvent ev) //Runs only in game!

@@ -5,8 +5,10 @@ import com.minebarteksa.orion.blocks.TileEntityBlockBase;
 import com.minebarteksa.orion.items.ItemBase;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
+import scala.actors.threadpool.Arrays;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +18,15 @@ public class OrionRegistry
     private static List<BlockBase> blockToRegister = new ArrayList<>();
     private static List<ItemBase> itemsToRegister = new ArrayList<>();
     private static List<TileEntityBlockBase> teBlocksToRegister = new ArrayList<>();
+    private static List<SoundEvent> soundsToRegister = new ArrayList<>();
 
-    public static void register(BlockBase... blocks) { for(BlockBase b : blocks) blockToRegister.add(b); }
+    public static void register(BlockBase... blocks) { blockToRegister.addAll(Arrays.asList(blocks)); }
 
-    public static void register(ItemBase... items) { for(ItemBase i : items) itemsToRegister.add(i); }
+    public static void register(ItemBase... items) { itemsToRegister.addAll(Arrays.asList(items)); }
 
-    public static void register(TileEntityBlockBase... tileEntityBlocks) { for(TileEntityBlockBase te : tileEntityBlocks) teBlocksToRegister.add(te); }
+    public static void register(TileEntityBlockBase... tileEntityBlocks) { teBlocksToRegister.addAll(Arrays.asList(tileEntityBlocks)); }
+
+    public static void register(SoundEvent... sounds) { soundsToRegister.addAll(Arrays.asList(sounds)); }
 
     public void registerItems(IForgeRegistry<Item> registry)
     {
@@ -53,4 +58,6 @@ public class OrionRegistry
         for(TileEntityBlockBase te : teBlocksToRegister)
             te.registerItemModel();
     }
+
+    public void registerSounds(IForgeRegistry<SoundEvent> registry) { for(SoundEvent s : soundsToRegister) registry.register(s); }
 }

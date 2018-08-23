@@ -1,8 +1,8 @@
 package com.minebarteksa.orion.debugtools;
 
 import com.minebarteksa.orion.Orion;
-import com.minebarteksa.orion.events.OrionEvents;
-import com.minebarteksa.orion.events.OrionListener;
+import com.minebarteksa.orion.events.OrionEvent;
+import com.minebarteksa.orion.events.IOrionListener;
 import com.minebarteksa.orion.events.OrionMouseEvents;
 import com.minebarteksa.orion.items.ItemBase;
 import net.minecraft.client.Minecraft;
@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class MouseDebug extends ItemBase implements OrionListener
+public class MouseDebug extends ItemBase implements IOrionListener
 {
     private OrionMouseEvents.MouseButtons lastClick;
     private boolean isRegistered = false;
@@ -60,7 +60,7 @@ public class MouseDebug extends ItemBase implements OrionListener
     }
 
     @Override
-    public void onOrionEvent(OrionEvents ev) {
+    public void onOrionEvent(OrionEvent ev) {
         if(ev instanceof OrionMouseEvents.LeftClick && ((OrionMouseEvents.LeftClick)ev).start)
         {
             leftCount++;

@@ -15,4 +15,6 @@ public class OrionMultiBlocks
     }
 
     public static int getMultiBlockId(ResourceLocation multiblock) { return REGISTRY.getIDForObject(REGISTRY.getObject(multiblock)); }
+
+    // ToDo - Auto registry of MultiBlockInfo aka automatic loading of MultiBlock json files
 }
