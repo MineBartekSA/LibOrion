@@ -3,6 +3,7 @@ package com.minebarteksa.orion.debugtools;
 import com.minebarteksa.orion.Orion;
 import com.minebarteksa.orion.blocks.TileEntityBlockBase;
 import com.minebarteksa.orion.multiblock.MultiBlock;
+import com.minebarteksa.orion.multiblock.MultiBlockInfo;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
@@ -41,10 +42,13 @@ public class DebugBlock extends TileEntityBlockBase<DebugBlock.DebugBlockEntity>
         @Override
         public void onCompleted()
         {
-            Orion.log.info("Created!");
+            Orion.log.info("Created the '" + getCurrentMultiBlockName() + "' MultiBlock!");
             if(!getWorld().isRemote)
             {
-                getWorld().getMinecraftServer().getPlayerList().sendMessage(new TextComponentString("MultiBlock Successfully created!"));
+                if(mbInfo.type == MultiBlockInfo.MultiBlockType.Single)
+                    getWorld().getMinecraftServer().getPlayerList().sendMessage(new TextComponentString("MultiBlock Successfully created! Created " + getCurrentMultiBlockName()));
+                else
+                    getWorld().getMinecraftServer().getPlayerList().sendMessage(new TextComponentString("MultiMultiBlock Successfully created! Created " + getCurrentMultiBlockName()));
             }
         }
     }

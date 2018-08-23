@@ -13,7 +13,6 @@ public class OrionBlockEvents
         public BlockPos pos;
         public void invokeWithValue(BlockPos pos)
         {
-            Orion.log.info("BlockBreak event - Pos: " + pos);
             this.pos = pos;
             this.invokeListeners();
         }

@@ -9,6 +9,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import com.minebarteksa.orion.multiblock.MultiBlockInfo.MultiBlockType;
+import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -16,9 +17,9 @@ import java.nio.charset.StandardCharsets;
 public abstract class MultiBlock extends TileEntity implements ITickable, IOrionListener // The Extendable class for the MultiBlocks!
 {
     private ResourceLocation name; // Name equals to the name of the json file for the multi block
-    private MultiBlockInfo mbInfo;
-    //private String mmName;
-    private Boolean isCompleted = false;
+    protected MultiBlockInfo mbInfo;
+    private String mmName;
+    protected Boolean isCompleted = false;
     private Boolean isRegisteredIOL = false;
 
     public MultiBlock(ResourceLocation name)
@@ -61,6 +62,11 @@ public abstract class MultiBlock extends TileEntity implements ITickable, IOrion
         {
             if(!isCompleted)
                 return;
+            if(mbInfo.blocks == null)
+            {
+                isCompleted = false;
+                return;
+            }
             for(MultiBlockInfo.BlockPoint bp : mbInfo.blocks)
             {
                 if(getBlockPosFromPoint(bp).equals(((OrionBlockEvents.BlockBreak) ev).pos))
@@ -69,7 +75,7 @@ public abstract class MultiBlock extends TileEntity implements ITickable, IOrion
                     if(mbInfo.type == MultiBlockType.Multi)
                     {
                         mbInfo.blocks = null;
-                        //mmName = "";
+                        mmName = "";
                     }
                 }
             }
@@ -79,6 +85,8 @@ public abstract class MultiBlock extends TileEntity implements ITickable, IOrion
     @Override
     public void update()
     {
+        if(world.isRemote)
+            return;
         if(!isRegisteredIOL)
         {
             OrionBlockEvents.BB.addListener(this);
@@ -89,22 +97,50 @@ public abstract class MultiBlock extends TileEntity implements ITickable, IOrion
             if(mbInfo.type == MultiBlockType.Single)
             {
                 for(MultiBlockInfo.BlockPoint bp : mbInfo.blocks)
-                    if(!(getWorld().getBlockState(getBlockPosFromPoint(bp)).getBlock().getRegistryName().toString().equals(new ResourceLocation(bp.block).toString())))
+                    if(!(getWorld().getBlockState(getBlockPosFromPoint(bp)).getBlock().getRegistryName().equals(new ResourceLocation(bp.block))))
                         return;
                 isCompleted = true;
                 this.onCompleted();
             }
             else if(mbInfo.type == MultiBlockType.Multi)
             {
-                // ToDo - Multi MultiBlocks
+                for(MultiBlockInfo.MMultiBlocks mm : mbInfo.multiblocks)
+                {
+                    if(!checkMM(mm))
+                        continue;
+                    isCompleted = true;
+                    mmName = mm.name;
+                    mbInfo.blocks = mm.blocks;
+                    this.onCompleted();
+                }
             }
         }
     }
 
+    private Boolean checkMM(MultiBlockInfo.MMultiBlocks mm)
+    {
+        for(MultiBlockInfo.BlockPoint bp : mm.blocks)
+            if(!(getWorld().getBlockState(getBlockPosFromPoint(bp)).getBlock().getRegistryName().equals(new ResourceLocation(bp.block))))
+                return false;
+        return true;
+    }
+
     @Override
-    protected void finalize() { OrionBlockEvents.BB.removeListener(this); }
+    protected void finalize() { if(!world.isRemote) OrionBlockEvents.BB.removeListener(this); }
 
     public abstract void onCompleted();
 
     private BlockPos getBlockPosFromPoint(MultiBlockInfo.BlockPoint point) { return new BlockPos(pos.getX() + point.x, pos.getY() + point.y, pos.getZ() + point.z); }
+
+    @Nullable
+    public String getCurrentMultiBlockName()
+    {
+        if(!isCompleted)
+            return null;
+        if(mbInfo.type == MultiBlockType.Single)
+            return name.toString();
+        else if(mbInfo.type == MultiBlockType.Multi)
+            return name + "#" + mmName;
+        return null;
+    }
 }
