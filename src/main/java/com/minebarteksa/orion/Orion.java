@@ -4,6 +4,7 @@ import com.minebarteksa.orion.debugtools.DebugBlock;
 import com.minebarteksa.orion.debugtools.MouseDebug;
 import com.minebarteksa.orion.events.OrionBlockEvents;
 import com.minebarteksa.orion.events.OrionMouseEvents;
+import com.minebarteksa.orion.multiblock.OrionMultiBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.MouseEvent;
@@ -49,6 +50,7 @@ public class Orion
 		proxy.preInit(ev);
 		OrionRegistry.register(pt, rt, md);
 		OrionRegistry.register(db);
+		OrionMultiBlocks.autoRegister();
 	}
 
 	@Mod.EventHandler

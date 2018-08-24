@@ -9,17 +9,19 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import com.minebarteksa.orion.multiblock.MultiBlockInfo.MultiBlockType;
+import net.minecraft.world.chunk.Chunk;
 import javax.annotation.Nullable;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class MultiBlock extends TileEntity implements ITickable, IOrionListener // The Extendable class for the MultiBlocks!
 {
     private ResourceLocation name; // Name equals to the name of the json file for the multi block
     protected MultiBlockInfo mbInfo;
     private String mmName;
+    private List<Chunk> multiblockChunks = new ArrayList<>();
     protected Boolean isCompleted = false;
+    private Boolean disabled = false;
     private Boolean isRegisteredIOL = false;
 
     public MultiBlock(ResourceLocation name)
@@ -28,31 +30,10 @@ public abstract class MultiBlock extends TileEntity implements ITickable, IOrion
         if(OrionMultiBlocks.REGISTRY.containsKey(this.name))
             this.mbInfo = OrionMultiBlocks.REGISTRY.getObject(this.name);
         else
-            register();
-    }
-
-    private void register()
-    {
-        String json;
-        try
         {
-            String j[] = new String[] {""};
-            Orion.log.info(getClass().getClassLoader().getResource("assets/" + name.getResourceDomain() + "/multiblocks/" + name.getResourcePath() + ".json").toString());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("assets/" + name.getResourceDomain() + "/multiblocks/" + name.getResourcePath() + ".json"), StandardCharsets.UTF_8));
-            reader.lines().forEachOrdered(l -> { if(l != null) j[0] += l.replace(" ", ""); });
-            json = j[0];
+            Orion.log.info("No MultiBlock that matches this '" + name + "' name!");
+            disabled = true;
         }
-        catch(Exception e)
-        {
-            Orion.log.error("Error while trying to read json file for MultiBlock '" + name + "'");
-            Orion.log.error(e.toString());
-            return;
-        }
-        this.mbInfo = MultiBlockInfo.createFromJsonFile(json, name);
-        if(mbInfo != null)
-            OrionMultiBlocks.register(mbInfo);
-        else
-            Orion.log.error("Error while trying to read form json file for MultiBlock '" + name + "'");
     }
 
     @Override
@@ -62,16 +43,19 @@ public abstract class MultiBlock extends TileEntity implements ITickable, IOrion
         {
             if(!isCompleted)
                 return;
-            if(mbInfo.blocks == null)
+            if(mbInfo.blocks == null || multiblockChunks.isEmpty())
             {
                 isCompleted = false;
                 return;
             }
+            if(!multiblockChunks.contains(world.getChunkFromBlockCoords(((OrionBlockEvents.BlockBreak) ev).pos)))
+                return;
             for(MultiBlockInfo.BlockPoint bp : mbInfo.blocks)
             {
                 if(getBlockPosFromPoint(bp).equals(((OrionBlockEvents.BlockBreak) ev).pos))
                 {
                     isCompleted = false;
+                    multiblockChunks.clear();
                     if(mbInfo.type == MultiBlockType.Multi)
                     {
                         mbInfo.blocks = null;
@@ -85,7 +69,7 @@ public abstract class MultiBlock extends TileEntity implements ITickable, IOrion
     @Override
     public void update()
     {
-        if(world.isRemote)
+        if(world.isRemote || disabled)
             return;
         if(!isRegisteredIOL)
         {
@@ -101,6 +85,7 @@ public abstract class MultiBlock extends TileEntity implements ITickable, IOrion
                         return;
                 isCompleted = true;
                 this.onCompleted();
+                this.getChunks();
             }
             else if(mbInfo.type == MultiBlockType.Multi)
             {
@@ -112,6 +97,7 @@ public abstract class MultiBlock extends TileEntity implements ITickable, IOrion
                     mmName = mm.name;
                     mbInfo.blocks = mm.blocks;
                     this.onCompleted();
+                    this.getChunks();
                 }
             }
         }
@@ -123,6 +109,13 @@ public abstract class MultiBlock extends TileEntity implements ITickable, IOrion
             if(!(getWorld().getBlockState(getBlockPosFromPoint(bp)).getBlock().getRegistryName().equals(new ResourceLocation(bp.block))))
                 return false;
         return true;
+    }
+
+    private void getChunks()
+    {
+        for(MultiBlockInfo.BlockPoint bp : mbInfo.blocks)
+            if(!multiblockChunks.contains(world.getChunkFromBlockCoords(getBlockPosFromPoint(bp))))
+                multiblockChunks.add(world.getChunkFromBlockCoords(getBlockPosFromPoint(bp)));
     }
 
     @Override
