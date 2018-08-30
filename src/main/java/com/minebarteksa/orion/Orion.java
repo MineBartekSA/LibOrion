@@ -50,14 +50,11 @@ public class Orion
 		proxy.preInit(ev);
 		OrionRegistry.register(pt, rt, md);
 		OrionRegistry.register(db);
-		OrionMultiBlocks.autoRegister();
+        OrionMultiBlocks.autoRegister();
 	}
 
 	@Mod.EventHandler
-	public void init(FMLInitializationEvent ev)
-	{
-		proxy.init(ev);
-	}
+	public void init(FMLInitializationEvent ev) { proxy.init(ev);	}
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent ev)

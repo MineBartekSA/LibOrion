@@ -1,9 +1,7 @@
 package com.minebarteksa.orion.multiblock;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.minebarteksa.orion.Orion;
-import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import javax.annotation.Nullable;
 
@@ -25,8 +23,6 @@ public class MultiBlockInfo
     public static MultiBlockInfo createFromJsonFile(String jsonString, ResourceLocation name)
     {
         JsonClass json = new Gson().fromJson(jsonString, JsonClass.class);
-
-        Orion.log.info(new Gson().toJson(json));
 
         MultiBlockInfo mbi = new MultiBlockInfo(name);
         if(json.type.equals("single"))
@@ -55,7 +51,7 @@ public class MultiBlockInfo
             }
             for(MMultiBlocks mm : mbi.multiblocks)
             {
-                if(mm.name == "" || mm.name == " " || mm.name == null)
+                if(mm.name.equals("") || mm.name.equals(" ") || mm.name == null)
                 {
                     Orion.log.error("The field 'name' of one of the MultiBlock variants in the json file is missing or invalid!");
                     return null;

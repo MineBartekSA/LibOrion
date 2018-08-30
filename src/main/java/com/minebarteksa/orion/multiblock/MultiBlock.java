@@ -61,6 +61,7 @@ public abstract class MultiBlock extends TileEntity implements ITickable, IOrion
                         mbInfo.blocks = null;
                         mmName = "";
                     }
+                    this.onDestroyedMultiBlock();
                 }
             }
         }
@@ -122,6 +123,8 @@ public abstract class MultiBlock extends TileEntity implements ITickable, IOrion
     protected void finalize() { if(!world.isRemote) OrionBlockEvents.BB.removeListener(this); }
 
     public abstract void onCompleted();
+
+    public void onDestroyedMultiBlock() {}
 
     private BlockPos getBlockPosFromPoint(MultiBlockInfo.BlockPoint point) { return new BlockPos(pos.getX() + point.x, pos.getY() + point.y, pos.getZ() + point.z); }
 

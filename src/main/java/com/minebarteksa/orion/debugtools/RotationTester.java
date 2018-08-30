@@ -2,6 +2,7 @@ package com.minebarteksa.orion.debugtools;
 
 import com.minebarteksa.orion.items.ItemBase;
 import com.minebarteksa.orion.Orion;
+import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
@@ -15,8 +16,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class RotationTester extends ItemBase
@@ -57,7 +56,6 @@ public class RotationTester extends ItemBase
                 playerIn.sendMessage(new TextComponentString("Rotation Yaw Head : " + target.rotationYawHead));
                 playerIn.sendMessage(new TextComponentString("Math Yaw Head     : " + (target.rotationYawHead * 100) / 360));
                 playerIn.sendMessage(new TextComponentString("Rotation Pitch       : " + target.rotationPitch));
-                playerIn.sendMessage(new TextComponentString(TextFormatting.AQUA + "==============================================="));
             } else
                 return false;
         }

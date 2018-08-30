@@ -51,5 +51,12 @@ public class DebugBlock extends TileEntityBlockBase<DebugBlock.DebugBlockEntity>
                     getWorld().getMinecraftServer().getPlayerList().sendMessage(new TextComponentString("MultiMultiBlock Successfully created! Created " + getCurrentMultiBlockName()));
             }
         }
+
+        @Override
+        public void onDestroyedMultiBlock()
+        {
+            if(!getWorld().isRemote)
+                getWorld().getMinecraftServer().getPlayerList().sendMessage(new TextComponentString("MultiBlock Destroyed!"));
+        }
     }
 }
