@@ -38,10 +38,10 @@ public class RotationTester extends ItemBase
     {
         if(!stack.isItemEnchanted())
             stack.addEnchantment(Enchantment.getEnchantmentByID(19), 255);
-        tooltip.add("\u00A7eLibOrion Debug Tool!");
-        tooltip.add("\u00A7fRotation Yaw shows your rotationYawHead parameter");
-        tooltip.add("\u00A7fMath shows (rotationYawHead * 100) / 360 equation");
-        tooltip.add("\u00A7fBy right clicking on any entity it will show it's rotation values");
+        tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
+        tooltip.add(TextFormatting.WHITE + "Rotation Yaw shows your rotationYawHead parameter");
+        tooltip.add(TextFormatting.WHITE + "Math shows (rotationYawHead * 100) / 360 equation");
+        tooltip.add(TextFormatting.WHITE + "By right clicking on any entity it will show it's rotation values");
     }
 
     @Override

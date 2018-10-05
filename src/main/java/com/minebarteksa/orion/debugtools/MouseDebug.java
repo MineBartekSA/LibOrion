@@ -10,6 +10,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,7 +30,8 @@ public class MouseDebug extends ItemBase implements IOrionListener
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+    {
         if(!stack.isItemEnchanted())
             stack.addEnchantment(Enchantment.getEnchantmentByID(19), 255);
         if(!isRegistered)
@@ -46,21 +48,23 @@ public class MouseDebug extends ItemBase implements IOrionListener
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+    {
         if(!stack.isItemEnchanted())
             stack.addEnchantment(Enchantment.getEnchantmentByID(19), 255);
-        tooltip.add("\u00A7eLibOrion Debug Tool!");
-        tooltip.add("\u00A7fThis tools tracks the count of clicks and scroll direction");
-        tooltip.add("\u00A7fIt uses LibOrion's own easy Event system");
-        tooltip.add("\u00A7fIt's not a useful tool but it's useful as a example of using LibOrion Event system");
-        tooltip.add("\u00A72LeftClick count: " + leftCount);
-        tooltip.add("\u00A72RightClick count: " + rightCount);
-        tooltip.add("\u00A72MiddleClick count: " + middleCount);
-        tooltip.add("\u00A72Last scroll direction: " + lastDirection);
+        tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
+        tooltip.add(TextFormatting.WHITE + "This tools tracks the count of clicks and scroll direction");
+        tooltip.add(TextFormatting.WHITE + "It uses LibOrion's own easy Event system");
+        tooltip.add(TextFormatting.WHITE + "It's not a useful tool but it's useful as a example of using LibOrion Event system");
+        tooltip.add(TextFormatting.DARK_GREEN + "LeftClick count: " + leftCount);
+        tooltip.add(TextFormatting.DARK_GREEN + "RightClick count: " + rightCount);
+        tooltip.add(TextFormatting.DARK_GREEN + "MiddleClick count: " + middleCount);
+        tooltip.add(TextFormatting.DARK_GREEN + "Last scroll direction: " + lastDirection);
     }
 
     @Override
-    public void onOrionEvent(OrionEvent ev) {
+    public void onOrionEvent(OrionEvent ev)
+    {
         if(ev instanceof OrionMouseEvents.LeftClick && ((OrionMouseEvents.LeftClick)ev).start)
         {
             leftCount++;

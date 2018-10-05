@@ -9,6 +9,7 @@ import com.minebarteksa.orion.Orion;
 import net.minecraft.client.util.ITooltipFlag;
 import java.util.List;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.item.ItemStack;
 import net.minecraft.creativetab.CreativeTabs;
@@ -70,10 +71,10 @@ public class ParticleTester extends ItemBase
     {
         if(!stack.isItemEnchanted())
             stack.addEnchantment(Enchantment.getEnchantmentByID(19), 255);
-        tooltip.add("\u00A7eLibOrion Debug Tool!");
-        tooltip.add("\u00A7fUse Shift+RightClick to change particle type!");
-        tooltip.add("\u00A7fNot every particle will work, some like minecraft:iconcrack crash the game!");
-        tooltip.add("\u00A72Current Particle type: " + OrionParticles.getParticleNameByID(partId));
+        tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
+        tooltip.add(TextFormatting.WHITE + "Use Shift+RightClick to change particle type!");
+        tooltip.add(TextFormatting.WHITE + "Not every particle will work, some like minecraft:iconcrack crash the game!");
+        tooltip.add(TextFormatting.DARK_GREEN + "Current Particle type: " + OrionParticles.getParticleNameByID(partId));
     }
 
     private boolean isIdInCrashList(int id)

@@ -11,6 +11,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
@@ -31,8 +32,8 @@ public class DebugBlock extends TileEntityBlockBase<DebugBlock.DebugBlockEntity>
     {
         if(!stack.isItemEnchanted())
             stack.addEnchantment(Enchantment.getEnchantmentByID(19), 255);
-        tooltip.add("\u00A7eLibOrion Debug Tool!");
-        tooltip.add("\u00A7fThis tool is an example of how to create a MultiBlock structure with OrionMultiBlocks system");
+        tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
+        tooltip.add(TextFormatting.WHITE + "This tool is an example of how to create a MultiBlock structure with OrionMultiBlocks system");
     }
 
     public static class DebugBlockEntity extends MultiBlock

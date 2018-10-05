@@ -119,7 +119,6 @@ public abstract class MultiBlock extends TileEntity implements ITickable, IOrion
                 multiblockChunks.add(world.getChunkFromBlockCoords(getBlockPosFromPoint(bp)));
     }
 
-    @Override
     protected void finalize() { if(!world.isRemote) OrionBlockEvents.BB.removeListener(this); }
 
     public abstract void onCompleted();

@@ -42,7 +42,7 @@ public class OrionMultiBlocks
                 Path p;
                 if(u.getScheme().equals("jar"))
                 {
-                    FileSystem fs = FileSystems.newFileSystem(u, Collections.<String, Object>emptyMap());
+                    FileSystem fs = FileSystems.newFileSystem(u, Collections.emptyMap());
                     p = fs.getPath("assets/" + mod.getModId() + "/multiblocks/");
                     isJar = true;
                 }
