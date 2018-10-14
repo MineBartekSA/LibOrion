@@ -32,6 +32,4 @@ public abstract class TileEntityBlockBase<TE extends TileEntity> extends BlockBa
   @Nullable
   @Override
   public abstract TE createTileEntity(World world, IBlockState state);
-
-
 }
