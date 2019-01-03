@@ -10,7 +10,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 
-public class BlockBase extends Block
+public class BlockBase extends Block implements BlockRegister
 {
 	protected String name;
 	protected String modelDomain;
@@ -37,4 +37,7 @@ public class BlockBase extends Block
 		super.setCreativeTab(tab);
 		return this;
 	}
+
+	@Override
+	public Block getBlock() { return this; }
 }

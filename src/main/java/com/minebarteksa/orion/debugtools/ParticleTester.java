@@ -70,7 +70,7 @@ public class ParticleTester extends ItemBase
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 255);
+            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
         tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
         tooltip.add(TextFormatting.WHITE + "Use Shift+RightClick to change particle type!");
         tooltip.add(TextFormatting.WHITE + "Not every particle will work, some like minecraft:iconcrack crash the game!");

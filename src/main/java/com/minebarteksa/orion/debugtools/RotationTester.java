@@ -27,7 +27,7 @@ public class RotationTester extends ItemBase
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 255);
+            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
         if(worldIn.isRemote)
             if(isSelected)
                 Minecraft.getMinecraft().ingameGUI.setOverlayMessage("Rotation Yaw: " + entityIn.getRotationYawHead() + " Math: " + (entityIn.getRotationYawHead() * 100) / 360, false);
@@ -37,7 +37,7 @@ public class RotationTester extends ItemBase
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 255);
+            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
         tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
         tooltip.add(TextFormatting.WHITE + "Rotation Yaw shows your rotationYawHead parameter");
         tooltip.add(TextFormatting.WHITE + "Math shows (rotationYawHead * 100) / 360 equation");

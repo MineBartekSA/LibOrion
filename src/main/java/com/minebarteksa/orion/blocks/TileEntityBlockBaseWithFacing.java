@@ -1,5 +1,6 @@
 package com.minebarteksa.orion.blocks;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
@@ -9,7 +10,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public abstract class TileEntityBlockBaseWithFacing<TE extends TileEntity> extends BlockBaseWithFacing
+public abstract class TileEntityBlockBaseWithFacing<TE extends TileEntity> extends BlockBaseWithFacing implements TERegister
 {
     public TileEntityBlockBaseWithFacing(Material mat, String name, String modelDomain) { super(mat, name, modelDomain); }
 
@@ -30,4 +31,7 @@ public abstract class TileEntityBlockBaseWithFacing<TE extends TileEntity> exten
     @Nullable
     @Override
     public abstract TE createTileEntity(World world, IBlockState state);
+
+    @Override
+    public Block getBlock() { return this; }
 }

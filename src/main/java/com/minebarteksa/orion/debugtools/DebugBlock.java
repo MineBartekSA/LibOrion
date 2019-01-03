@@ -31,7 +31,7 @@ public class DebugBlock extends TileEntityBlockBase<DebugBlock.DebugBlockEntity>
     public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 255);
+            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
         tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
         tooltip.add(TextFormatting.WHITE + "This tool is an example of how to create a MultiBlock structure with OrionMultiBlocks system");
     }

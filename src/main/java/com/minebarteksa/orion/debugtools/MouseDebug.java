@@ -33,7 +33,7 @@ public class MouseDebug extends ItemBase implements IOrionListener
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 255);
+            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
         if(!isRegistered)
         {
             OrionMouseEvents.LC.addListener(this);
@@ -51,7 +51,7 @@ public class MouseDebug extends ItemBase implements IOrionListener
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 255);
+            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
         tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
         tooltip.add(TextFormatting.WHITE + "This tools tracks the count of clicks and scroll direction");
         tooltip.add(TextFormatting.WHITE + "It uses LibOrion's own easy Event system");

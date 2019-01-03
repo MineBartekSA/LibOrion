@@ -1,5 +1,6 @@
 package com.minebarteksa.orion.blocks;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -11,7 +12,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockBaseWithFacing extends BlockBase
+public class BlockBaseWithFacing extends BlockBase implements BlockRegister
 {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
@@ -37,4 +38,7 @@ public class BlockBaseWithFacing extends BlockBase
     public int getMetaFromState(IBlockState state) { return state.getValue(FACING).getIndex(); }
 
     protected BlockStateContainer createBlockState() { return new BlockStateContainer(this, FACING); }
+
+    @Override
+    public Block getBlock() { return this; }
 }
