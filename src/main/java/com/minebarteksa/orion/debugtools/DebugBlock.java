@@ -2,6 +2,8 @@ package com.minebarteksa.orion.debugtools;
 
 import com.minebarteksa.orion.Orion;
 import com.minebarteksa.orion.blocks.TileEntityBlockBase;
+import com.minebarteksa.orion.integrations.IOrionInfoProvider;
+import com.minebarteksa.orion.integrations.infoprovider.IPData;
 import com.minebarteksa.orion.multiblock.MultiBlock;
 import com.minebarteksa.orion.multiblock.MultiBlockInfo;
 import net.minecraft.block.material.Material;
@@ -14,6 +16,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DebugBlock extends TileEntityBlockBase<DebugBlock.DebugBlockEntity>
@@ -36,7 +39,7 @@ public class DebugBlock extends TileEntityBlockBase<DebugBlock.DebugBlockEntity>
         tooltip.add(TextFormatting.WHITE + "This tool is an example of how to create a MultiBlock structure with OrionMultiBlocks system");
     }
 
-    public static class DebugBlockEntity extends MultiBlock
+    public static class DebugBlockEntity extends MultiBlock implements IOrionInfoProvider
     {
         public DebugBlockEntity() { super(new ResourceLocation(Orion.ModID, "debug_block")); }
 
@@ -58,6 +61,14 @@ public class DebugBlock extends TileEntityBlockBase<DebugBlock.DebugBlockEntity>
         {
             if(!getWorld().isRemote)
                 getWorld().getMinecraftServer().getPlayerList().sendMessage(new TextComponentString("MultiBlock Destroyed!"));
+        }
+
+        @Override
+        public List<String> addInfo(IPData data)
+        {
+            List<String> r = new ArrayList();
+            r.add("Debug Block for OrionMultiBlocks System");
+            return r;
         }
     }
 }

@@ -83,9 +83,9 @@ public class MouseDebug extends ItemBase implements IOrionListener
         if(ev instanceof  OrionMouseEvents.ScrollEvent)
         {
             if(((OrionMouseEvents.ScrollEvent)ev).value == -120)
-                lastDirection = "Left";
-            if(((OrionMouseEvents.ScrollEvent)ev).value == 120)
                 lastDirection = "Right";
+            if(((OrionMouseEvents.ScrollEvent)ev).value == 120)
+                lastDirection = "Left";
         }
     }
 }

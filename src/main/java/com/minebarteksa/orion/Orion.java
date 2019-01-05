@@ -1,7 +1,6 @@
 package com.minebarteksa.orion;
 
-import com.minebarteksa.orion.debugtools.DebugBlock;
-import com.minebarteksa.orion.debugtools.MouseDebug;
+import com.minebarteksa.orion.debugtools.*;
 import com.minebarteksa.orion.events.OrionBlockEvents;
 import com.minebarteksa.orion.events.OrionMouseEvents;
 import com.minebarteksa.orion.multiblock.OrionMultiBlocks;
@@ -9,11 +8,10 @@ import net.minecraft.block.Block;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import com.minebarteksa.orion.debugtools.ParticleTester;
-import com.minebarteksa.orion.debugtools.RotationTester;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -42,13 +40,15 @@ public class Orion
 	public static RotationTester rt = new RotationTester();
 	public static MouseDebug md = new MouseDebug();
 	public static DebugBlock db = new DebugBlock();
+	public static InfoProviderTester ipt = new InfoProviderTester();
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent ev)
 	{
 		log = ev.getModLog();
 		proxy.preInit(ev);
-		OrionRegistry.register(pt, rt, md);
+		FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "com.minebarteksa.orion.integrations.TOPIntegration$GetTheOneProbe");
+		OrionRegistry.register(pt, rt, md, ipt);
 		OrionRegistry.register(db);
         OrionMultiBlocks.autoRegister();
 	}

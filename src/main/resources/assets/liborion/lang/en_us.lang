@@ -1,5 +1,6 @@
 item.particle_tester.name=Particle Tester
 item.rotation_tester.name=Rotation Tester
 item.mouse_debug.name=Mouse Debug
+item.ip_tester.name=Info Provider Tester
 
 tile.debug_block.name=Debug Block
