@@ -4,7 +4,12 @@ import com.minebarteksa.orion.debugtools.*;
 import com.minebarteksa.orion.events.OrionBlockEvents;
 import com.minebarteksa.orion.events.OrionMouseEvents;
 import com.minebarteksa.orion.multiblock.OrionMultiBlocks;
+import com.minebarteksa.orion.network.OrionPacketHandler;
+import com.minebarteksa.orion.network.PacketRegister;
+import com.minebarteksa.orion.potion.OrionPotion;
 import net.minecraft.block.Block;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionType;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -18,6 +23,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import com.minebarteksa.orion.proxy.CommonProxy;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -41,6 +47,7 @@ public class Orion
 	public static MouseDebug md = new MouseDebug();
 	public static DebugBlock db = new DebugBlock();
 	public static InfoProviderTester ipt = new InfoProviderTester();
+	public static OrionPotion tp;
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent ev)
@@ -50,11 +57,17 @@ public class Orion
 		FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "com.minebarteksa.orion.integrations.TOPIntegration$GetTheOneProbe");
 		OrionRegistry.register(pt, rt, md, ipt);
 		OrionRegistry.register(db);
+		OrionRegistry.register(tp = new OrionPotion());
+		OrionRegistry.register(new PacketRegister(OrionPacketHandler.PotionPacket.PotionPacketHandler.class, OrionPacketHandler.PotionPacket.class, Side.SERVER));
         OrionMultiBlocks.autoRegister();
 	}
 
 	@Mod.EventHandler
-	public void init(FMLInitializationEvent ev) { proxy.init(ev);	}
+	public void init(FMLInitializationEvent ev)
+	{
+		proxy.init(ev);
+		registry.registerPackets(OrionPacketHandler.INSTANCE);
+	}
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent ev)
@@ -76,6 +89,12 @@ public class Orion
 
 		@SubscribeEvent
 		public static void registerSounds(RegistryEvent.Register<SoundEvent> ev) { registry.registerSounds(ev.getRegistry()); }
+
+		@SubscribeEvent
+		public static void registerPotions(RegistryEvent.Register<Potion> ev) { registry.registerPotions(ev.getRegistry()); }
+
+		@SubscribeEvent
+		public static void registerPotionTypes(RegistryEvent.Register<PotionType> ev) { registry.registerPotionTypes(ev.getRegistry()); }
 
         @SubscribeEvent
         public static void onBlockBreak(BlockEvent.BreakEvent ev) { OrionBlockEvents.BB.invokeWithValue(ev.getPos()); }

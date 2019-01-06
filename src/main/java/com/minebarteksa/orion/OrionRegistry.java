@@ -4,17 +4,20 @@ import com.minebarteksa.orion.blocks.BlockRegister;
 import com.minebarteksa.orion.blocks.TERegister;
 import com.minebarteksa.orion.integrations.IOrionInfoProvider;
 import com.minebarteksa.orion.items.ItemBase;
+import com.minebarteksa.orion.network.PacketRegister;
+import com.minebarteksa.orion.potion.MixRegister;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionType;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class OrionRegistry
 {
@@ -22,6 +25,9 @@ public class OrionRegistry
     private static List<ItemBase> itemsToRegister = new ArrayList<>();
     private static List<TERegister> teBlocksToRegister = new ArrayList<>();
     private static List<SoundEvent> soundsToRegister = new ArrayList<>();
+    private static List<Potion> potionsToRegister = new ArrayList<>();
+    private static List<PacketRegister> packetsToRegister = new ArrayList<>();
+    private int nextPacketID;
 
     public static void register(BlockRegister... blocks) { blocksToRegister.addAll(Arrays.asList(blocks)); }
 
@@ -30,6 +36,10 @@ public class OrionRegistry
     public static void register(TERegister... tileEntityBlocks) { teBlocksToRegister.addAll(Arrays.asList(tileEntityBlocks)); }
 
     public static void register(SoundEvent... sounds) { soundsToRegister.addAll(Arrays.asList(sounds)); }
+
+    public static void register(Potion... potions) { potionsToRegister.addAll(Arrays.asList(potions)); }
+
+    public static void register(PacketRegister... packets) { packetsToRegister.addAll(Arrays.asList(packets)); }
 
     public void registerItems(IForgeRegistry<Item> registry)
     {
@@ -63,6 +73,31 @@ public class OrionRegistry
     }
 
     public void registerSounds(IForgeRegistry<SoundEvent> registry) { for(SoundEvent s : soundsToRegister) registry.register(s); }
+
+    public void registerPotions(IForgeRegistry<Potion> registry) { for(Potion p : potionsToRegister) registry.register(p); }
+
+    public void registerPotionTypes(IForgeRegistry<PotionType> registry)
+    {
+        for(Potion p : potionsToRegister)
+        {
+            if(p instanceof MixRegister)
+            {
+                PotionType pt = ((MixRegister) p).getPotionType();
+                PotionType lpt = ((MixRegister) p).getLongPotionType();
+                if(pt != null)
+                    registry.register(pt);
+                if(lpt != null)
+                    registry.register(lpt);
+                ((MixRegister) p).registerPotionMix();
+            }
+        }
+    }
+
+    public void registerPackets(SimpleNetworkWrapper instance)
+    {
+        for(PacketRegister pr : packetsToRegister)
+            instance.registerMessage(pr.handler, pr.message, nextPacketID++, pr.side);
+    }
 
     @Optional.Method(modid="waila")
     public void registerWailaProviders(IWailaRegistrar registry, IWailaDataProvider wdp)

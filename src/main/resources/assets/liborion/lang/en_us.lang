@@ -2,5 +2,12 @@ item.particle_tester.name=Particle Tester
 item.rotation_tester.name=Rotation Tester
 item.mouse_debug.name=Mouse Debug
 item.ip_tester.name=Info Provider Tester
+potion.effect.orion=Potion of the Orion
+splash_potion.effect.orion=Splash potion of the Orion
+lingering_potion.effect.orion=Lingering potion of the Orion
+potion.effect.long_orion=Potion of the Orion
+splash_potion.effect.long_orion=Splash potion of the Orion
+lingering_potion.effect.long_orion=Lingering potion of the Orion
+effect.orion=Orion
 
 tile.debug_block.name=Debug Block
