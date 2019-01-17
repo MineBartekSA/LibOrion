@@ -13,6 +13,7 @@ import net.minecraft.potion.PotionType;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -39,6 +40,11 @@ public class Orion
 
 	@SidedProxy(clientSide = "com.minebarteksa.orion.proxy.ClientProxy", serverSide = "com.minebarteksa.orion.proxy.CommonProxy")
 	public static CommonProxy proxy;
+
+	static
+	{
+		FluidRegistry.enableUniversalBucket();
+	}
 
 	public static Logger log;
 	public static OrionRegistry registry = new OrionRegistry();
@@ -67,6 +73,7 @@ public class Orion
 	{
 		proxy.init(ev);
 		registry.registerPackets(OrionPacketHandler.INSTANCE);
+		registry.registerFluids();
 	}
 
 	@Mod.EventHandler
