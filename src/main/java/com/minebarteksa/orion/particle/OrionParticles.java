@@ -11,7 +11,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.registries.RegistryManager;
 
 @SideOnly(Side.CLIENT)
-public class OrionParticles
+public class OrionParticles // ToDo - To rewrite!!
 {
   public static RegistryNamespacedDefaultedByKey<ResourceLocation, IParticleFactory> REGISTRY = new RegistryNamespacedDefaultedByKey<>(new ResourceLocation("null", "null")); // This REGISTRY only is needed to get the ID's of the particles and severs no other purpose.
   private static int nextId = 0;
