@@ -3,7 +3,6 @@ package com.minebarteksa.orion.multiblock;
 import com.google.gson.Gson;
 import com.minebarteksa.orion.Orion;
 import net.minecraft.util.ResourceLocation;
-import javax.annotation.Nullable;
 
 public class MultiBlockInfo
 {
@@ -12,6 +11,7 @@ public class MultiBlockInfo
     public MultiBlockType type;
     public BlockPoint[] blocks;
     public MMultiBlocks[] multiblocks;
+    //public Boolean toolRequired;
 
     public MultiBlockInfo(ResourceLocation name)
     {
@@ -29,6 +29,7 @@ public class MultiBlockInfo
         {
             mbi.type = MultiBlockType.Single;
             mbi.blocks = json.blocks;
+            //mbi.toolRequired = json.toolRequired;
             if(mbi.blocks == null)
             {
                 Orion.log.error("The field 'blocks' in the json file is missing! Check the spelling or change the type");
@@ -39,11 +40,17 @@ public class MultiBlockInfo
                 Orion.log.error("The field 'block' in your 'blocks' in your json file is missing or invalid!");
                 return null;
             }
+            /*if(mbi.toolRequired && checkToolRequirements(mbi.blocks))
+            {
+                Orion.log.error("This multiblock ('"+ name + "') is lacking the 0 0 0 block!");
+                return null;
+            }*/
         }
         else if(json.type.equals("multi"))
         {
             mbi.type = MultiBlockType.Multi;
             mbi.multiblocks = json.multiblocks;
+            //mbi.toolRequired = json.toolRequired;
             if(mbi.multiblocks == null)
             {
                 Orion.log.error("The field 'multiblocks' in the json file is missing! Check the spelling or change the type");
@@ -66,6 +73,11 @@ public class MultiBlockInfo
                     Orion.log.error("The field 'block' in your 'blocks' in the '" + name + "#" + mm.name +"' MultiBlock in json file is missing or invalid!");
                     return null;
                 }
+                /*if(mbi.toolRequired && checkToolRequirements(mbi.blocks))
+                {
+                    Orion.log.error("This multiblock ('" + name + "#" + mm.name + "') is lacking the 0 0 0 block!");
+                    return null;
+                }*/
             }
         }
 
@@ -81,25 +93,32 @@ public class MultiBlockInfo
     private static boolean checkBlockPoints(BlockPoint[] bps)
     {
         for(BlockPoint bp : bps)
-        {
             if(bp.block.equals("") || bp.block.equals(" ") || bp.block == null)
                 return true;
-        }
+        return false;
+    }
+
+    private static boolean checkToolRequirements(BlockPoint[] bps)
+    {
+        for(BlockPoint bp : bps)
+            if(bp.x == 0 && bp.y == 0 && bp.z == 0)
+                return true;
         return false;
     }
 
     public static class JsonClass
     {
         public String type;
-        public Boolean changeBorders; // ToDo - MultiBlock have only one border
+        public Boolean changeBorders; // ToDo: MultiBlock have only one border
         public BlockPoint[] blocks;
         public MMultiBlocks[] multiblocks;
+        public Boolean toolRequired; // ToDo: Tool for MultiBlock creation!
     }
 
     public static class BlockPoint
     {
         public String block; // In ResourceLocation format aka domain:path
-        public String connectedModel; // ToDo - For the types singleConnected and multiConnected
+        public String connectedModel; // ToDo: For the types singleConnected and multiConnected
         public int x;
         public int y;
         public int z;

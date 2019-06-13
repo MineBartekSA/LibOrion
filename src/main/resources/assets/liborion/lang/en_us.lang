@@ -11,3 +11,4 @@ lingering_potion.effect.long_orion=Lingering potion of the Orion
 effect.orion=Orion
 
 tile.debug_block.name=Debug Block
+tile.tess_test.name=Tessellator Test

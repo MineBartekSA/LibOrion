@@ -2,12 +2,11 @@ package com.minebarteksa.orion.proxy;
 
 import com.minebarteksa.orion.Orion;
 import com.minebarteksa.orion.particle.OrionParticles;
-import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import com.minebarteksa.orion.render.RenderHandler;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ClientProxy extends CommonProxy
 {
@@ -15,12 +14,15 @@ public class ClientProxy extends CommonProxy
   public void preInit(FMLPreInitializationEvent ev)
   {
     super.preInit(ev);
+    Orion.renderers = new RenderHandler();
   }
 
   @Override
   public void init(FMLInitializationEvent ev)
   {
     super.init(ev);
+    Orion.registry.registerTESRS();
+    Orion.registry.registerEntityRenderers();
     OrionParticles.init();
   }
 

@@ -8,10 +8,12 @@ import com.minebarteksa.orion.integrations.IOrionInfoProvider;
 import com.minebarteksa.orion.items.ItemBase;
 import com.minebarteksa.orion.network.PacketRegister;
 import com.minebarteksa.orion.potion.MixRegister;
+import com.minebarteksa.orion.render.IEntityRegister;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.potion.Potion;
@@ -20,6 +22,8 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -27,7 +31,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class OrionRegistry
 {
@@ -37,6 +44,8 @@ public class OrionRegistry
     private static List<Potion> potionsToRegister = new ArrayList<>();
     private static List<PacketRegister> packetsToRegister = new ArrayList<>();
     private static List<Fluid> fluidsToRegister = new ArrayList<>();
+    private static List<Entity> entitysToRegister = new ArrayList<>();
+    private static List<TESRRegister> tesrsToRegister = new ArrayList<>();
     private int nextPacketID;
 
     /**
@@ -56,6 +65,10 @@ public class OrionRegistry
     public static void register(Potion... potions) { potionsToRegister.addAll(Arrays.asList(potions)); }
 
     public static void register(PacketRegister... packets) { packetsToRegister.addAll(Arrays.asList(packets)); }
+
+    public static void register(TESRRegister... tesrs) { tesrsToRegister.addAll(Arrays.asList(tesrs)); }
+
+    public static void register(Entity... entitys) { entitysToRegister.addAll(Arrays.asList(entitys)); }
 
     public static void register(Fluid... fluids) { fluidsToRegister.addAll(Arrays.asList(fluids)); } // LOL No example on how to add one xD
 
@@ -133,6 +146,12 @@ public class OrionRegistry
         }
     }
 
+    public void registerTESRS()
+    {
+        for(TESRRegister t : tesrsToRegister)
+            ClientRegistry.bindTileEntitySpecialRenderer(t.getTileEntityClass(), t.getTESR());
+    }
+
     @Optional.Method(modid="waila")
     public void registerWailaProviders(IWailaRegistrar registry, IWailaDataProvider wdp)
     {
@@ -149,6 +168,15 @@ public class OrionRegistry
                 Orion.log.info("Registered '" + ((TERegister)b).getTileEntityClass().getName() + "' to Waila");
             }
         }
+    }
+
+    public void registerEntityRenderers()
+    {
+        for(Entity e : entitysToRegister)
+            if(e instanceof IEntityRegister)
+            {
+                RenderingRegistry.registerEntityRenderingHandler(e.getClass(), ((IEntityRegister) e).getRenderer());
+            }
     }
 
     private boolean isIOIP(Class<?>[] interfaces)
