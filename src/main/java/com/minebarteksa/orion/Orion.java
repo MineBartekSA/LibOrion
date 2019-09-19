@@ -8,7 +8,6 @@ import com.minebarteksa.orion.network.OrionPacketHandler;
 import com.minebarteksa.orion.network.PacketRegister;
 import com.minebarteksa.orion.potion.OrionPotion;
 import com.minebarteksa.orion.proxy.CommonProxy;
-import com.minebarteksa.orion.render.RenderHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
@@ -48,7 +47,7 @@ public class Orion
     }
 
     public static Logger log;
-    public static RenderHandler renderers;
+    //public static RenderHandler renderers;
     public static OrionRegistry registry = new OrionRegistry();
     public static ParticleTester pt = new ParticleTester();
     public static RotationTester rt = new RotationTester();

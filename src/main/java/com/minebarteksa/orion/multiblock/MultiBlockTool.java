@@ -8,7 +8,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class MultiBlockTool extends ItemBase
+public abstract class MultiBlockTool extends ItemBase // TODO: later lol
 {
     public MultiBlockTool(String name, String multiBlockName, String modelDomain)
     {
