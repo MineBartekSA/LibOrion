@@ -1,21 +1,25 @@
 package com.minebarteksa.orion.debugtools;
 
+import com.minebarteksa.orion.Orion;
+import com.minebarteksa.orion.items.ItemBase;
 import com.minebarteksa.orion.particle.OrionParticles;
 import net.minecraft.client.Minecraft;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.util.*;
-import net.minecraft.entity.player.EntityPlayer;
-import com.minebarteksa.orion.Orion;
 import net.minecraft.client.util.ITooltipFlag;
-import java.util.List;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraft.item.ItemStack;
-import net.minecraft.creativetab.CreativeTabs;
-import com.minebarteksa.orion.items.ItemBase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class ParticleTester extends ItemBase
 {
@@ -70,7 +74,7 @@ public class ParticleTester extends ItemBase
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
+            stack.addEnchantment(Enchantment.getEnchantmentByLocation("liborion:debug_tool"), 1);
         tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
         tooltip.add(TextFormatting.WHITE + "Use Shift+RightClick to change particle type!");
         tooltip.add(TextFormatting.WHITE + "Not every particle will work, some like minecraft:iconcrack crash the game!");

@@ -14,13 +14,31 @@ import java.util.ArrayList;
 
 public class OrionDownloader // TODO: Move and maybe change the name
 {
+    /**
+     * An {@link OrionDownloader} instance that is created on Construction
+     * and that downloads on Initialization all the added files.<br>
+     * The Download folder is <i>game folder/downloads/</i>
+     */
+    public static OrionDownloader INSTANCE;
+
     private static final int BufferSize = 102400;
 
     private final ArrayList<DownloadFile> ftd = new ArrayList<>();
     private final String downloadPath;
 
+    /**
+     * Creates a new Instance of {@link OrionDownloader}
+     * which downloads to <i>game folder/downloads/</i>
+     * @throws Exception when failed to create the download folder
+     */
     public OrionDownloader() throws Exception { this("downloads/"); }
 
+    /**
+     * Creates a new Instance of {@link OrionDownloader}
+     * which downloads to <i>game folder/provided path</i>
+     * @param path a path to download to. Example: <i>mods/LibOrion</i>
+     * @throws Exception when failed to create the download folder
+     */
     public OrionDownloader(String path) throws Exception
     {
         path = (path.charAt(0) == '/' ? path.substring(1) : path) + (path.charAt(path.length() - 1) != '/' ? "/" : "");
@@ -44,7 +62,7 @@ public class OrionDownloader // TODO: Move and maybe change the name
      * it will show the progress of the download.
      * @param sync if download should be synchronous or asynchronous
      */
-    public void Download(boolean sync) // TODO: Test Sync download after the game started
+    public void Download(boolean sync) // TODO: Test Sync and ASync download after the game started
     {
         if (sync)
             DownloadSync();

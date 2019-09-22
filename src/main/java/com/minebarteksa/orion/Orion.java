@@ -1,6 +1,7 @@
 package com.minebarteksa.orion;
 
 import com.minebarteksa.orion.debugtools.*;
+import com.minebarteksa.orion.enchantment.EnchantmentBase;
 import com.minebarteksa.orion.events.OrionBlockEvents;
 import com.minebarteksa.orion.events.OrionMouseEvents;
 import com.minebarteksa.orion.multiblock.OrionMultiBlocks;
@@ -9,6 +10,7 @@ import com.minebarteksa.orion.network.PacketRegister;
 import com.minebarteksa.orion.potion.OrionPotion;
 import com.minebarteksa.orion.proxy.CommonProxy;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionType;
@@ -20,10 +22,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
@@ -59,6 +58,13 @@ public class Orion
     public static OrionPotion tp;
 
     @Mod.EventHandler
+    public void construction(FMLConstructionEvent ev)
+    {
+        try { OrionDownloader.INSTANCE = new OrionDownloader(); }
+        catch (Exception e) { log.error(e); }
+    }
+
+    @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent ev)
     {
         log = ev.getModLog();
@@ -69,12 +75,14 @@ public class Orion
         OrionRegistry.register(ttt);
         OrionRegistry.register(tp = new OrionPotion());
         OrionRegistry.register(new PacketRegister(OrionPacketHandler.PotionPacket.PotionPacketHandler.class, OrionPacketHandler.PotionPacket.class, Side.SERVER));
+        OrionRegistry.register(new EnchantmentBase("debug_tool", Enchantment.Rarity.VERY_RARE).setCurse());
         OrionMultiBlocks.autoRegister();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent ev)
     {
+        OrionDownloader.INSTANCE.Download();
         proxy.init(ev);
         registry.registerPackets(OrionPacketHandler.INSTANCE);
         registry.registerFluids();
@@ -106,6 +114,9 @@ public class Orion
 
         @SubscribeEvent
         public static void registerPotionTypes(RegistryEvent.Register<PotionType> ev) { registry.registerPotionTypes(ev.getRegistry()); }
+
+        @SubscribeEvent
+        public static void registerEnchantments(RegistryEvent.Register<Enchantment> ev) { registry.registerEnchantments(ev.getRegistry()); }
 
         @SubscribeEvent
         public static void onBlockBreak(BlockEvent.BreakEvent ev) { OrionBlockEvents.BB.invokeWithValue(ev.getPos()); }

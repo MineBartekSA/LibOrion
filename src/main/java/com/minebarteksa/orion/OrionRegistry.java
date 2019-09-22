@@ -13,6 +13,7 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -44,17 +45,18 @@ public class OrionRegistry
     private static List<Potion> potionsToRegister = new ArrayList<>();
     private static List<PacketRegister> packetsToRegister = new ArrayList<>();
     private static List<Fluid> fluidsToRegister = new ArrayList<>();
-    private static List<Entity> entitysToRegister = new ArrayList<>();
+    private static List<Entity> entitiesToRegister = new ArrayList<>();
     private static List<TESRRegister> tesrsToRegister = new ArrayList<>();
+    private static List<Enchantment> enchantmentsToRegister = new ArrayList<>();
     private int nextPacketID;
 
     /**
-     * Method for adding Blocks to be registered.<br>
+     * Method for adding Blocks to registration.<br>
      * <b>OrionRegistry system uses {@link BlockRegister} and {@link TERegister} interfaces
-     * so Blocks should implement one of them!</b><br>
-     * I recommend just extending one of the {@link BlockBase } class.<br>
-     * If you dose not implement those interfaces the system will attempt to register those.
-     * @param blocks should implement BlockRegister or TERegister
+     * to register Blocks, so they should implement one of them!</b><br>
+     * Recommend is to extend one of the {@link BlockBase } classes.<br>
+     * Registration of a Block without these interfaces will still be attempted.
+     * @param blocks should implement {@link BlockRegister} or {@link TERegister}
      */
     public static void register(Block... blocks) { blocksToRegister.addAll(Arrays.asList(blocks)); }
 
@@ -68,13 +70,15 @@ public class OrionRegistry
 
     public static void register(TESRRegister... tesrs) { tesrsToRegister.addAll(Arrays.asList(tesrs)); }
 
-    public static void register(Entity... entitys) { entitysToRegister.addAll(Arrays.asList(entitys)); }
+    public static void register(Entity... entitys) { entitiesToRegister.addAll(Arrays.asList(entitys)); }
 
     public static void register(Fluid... fluids) { fluidsToRegister.addAll(Arrays.asList(fluids)); } // LOL No example on how to add one xD
 
-    public static void registerOreDictionary(String oreDictionaryName, BlockRegister... blocks) { for(BlockRegister b : blocks) OreDictionary.registerOre(oreDictionaryName, b.getBlock()); }
+    public static void register(Enchantment... enchantments) { enchantmentsToRegister.addAll(Arrays.asList(enchantments)); }
 
-    public static void registerOreDictionary(String oreDictionaryName, ItemBase... items) { for(ItemBase i : items) OreDictionary.registerOre(oreDictionaryName, i); }
+    public static void registerOreDictionary(String oreDictionaryName, Block... blocks) { for(Block b : blocks) OreDictionary.registerOre(oreDictionaryName, b); }
+
+    public static void registerOreDictionary(String oreDictionaryName, Item... items) { for(Item i : items) OreDictionary.registerOre(oreDictionaryName, i); }
 
     public void registerItems(IForgeRegistry<Item> registry)
     {
@@ -152,6 +156,12 @@ public class OrionRegistry
             ClientRegistry.bindTileEntitySpecialRenderer(t.getTileEntityClass(), t.getTESR());
     }
 
+    public void registerEnchantments(IForgeRegistry<Enchantment> registry)
+    {
+        for(Enchantment e : enchantmentsToRegister)
+            registry.register(e);
+    }
+
     @Optional.Method(modid="waila")
     public void registerWailaProviders(IWailaRegistrar registry, IWailaDataProvider wdp)
     {
@@ -172,7 +182,7 @@ public class OrionRegistry
 
     public void registerEntityRenderers()
     {
-        for(Entity e : entitysToRegister)
+        for(Entity e : entitiesToRegister)
             if(e instanceof IEntityRegister)
             {
                 RenderingRegistry.registerEntityRenderingHandler(e.getClass(), ((IEntityRegister) e).getRenderer());

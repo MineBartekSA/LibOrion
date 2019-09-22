@@ -15,6 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class DebugBlock extends TileEntityBlockBase<DebugBlock.DebugBlockEntity>
     public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
+            stack.addEnchantment(Enchantment.getEnchantmentByLocation("liborion:debug_tool"), 1);
         tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
         tooltip.add(TextFormatting.WHITE + "This tool is an example of how to create a MultiBlock structure with OrionMultiBlocks system");
     }
@@ -66,7 +67,7 @@ public class DebugBlock extends TileEntityBlockBase<DebugBlock.DebugBlockEntity>
         @Override
         public List<String> addInfo(IPData data)
         {
-            List<String> r = new ArrayList();
+            List<String> r = new ArrayList<>();
             r.add("Debug Block for OrionMultiBlocks System");
             return r;
         }
