@@ -8,6 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class TOPIntegration
     {
         @Nullable
         @Override
-        public Void apply( ITheOneProbe input) {
+        public Void apply(ITheOneProbe input) {
             itop = input;
             Orion.log.info("TheOneProbe integration enabled!");
 

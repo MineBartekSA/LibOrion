@@ -17,6 +17,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class InfoProviderTester extends ItemBase
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
+            stack.addEnchantment(Enchantment.getEnchantmentByLocation("liborion:debug_tool"), 1);
         tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
         tooltip.add(TextFormatting.WHITE + "This tool allows you to see what info Blocks provide");
         tooltip.add(TextFormatting.WHITE + "Block must use OrionInfoProvider system");
@@ -38,7 +39,7 @@ public class InfoProviderTester extends ItemBase
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
+            stack.addEnchantment(Enchantment.getEnchantmentByLocation("liborion:debug_tool"), 1);
     }
 
     @Override

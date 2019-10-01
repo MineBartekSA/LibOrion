@@ -6,7 +6,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RenderHandler
+public class RenderHandler // TODO: find a way to do this lol, but later
 {
     private static List<IRender> renders = new ArrayList<>();
 

@@ -1,8 +1,7 @@
 package com.minebarteksa.orion.debugtools;
 
-import com.minebarteksa.orion.items.ItemBase;
 import com.minebarteksa.orion.Orion;
-import javax.annotation.Nullable;
+import com.minebarteksa.orion.items.ItemBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
@@ -16,6 +15,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class RotationTester extends ItemBase
@@ -27,7 +28,7 @@ public class RotationTester extends ItemBase
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
+            stack.addEnchantment(Enchantment.getEnchantmentByLocation("liborion:debug_tool"), 1);
         if(worldIn.isRemote)
             if(isSelected)
                 Minecraft.getMinecraft().ingameGUI.setOverlayMessage("Rotation Yaw: " + entityIn.getRotationYawHead() + " Math: " + (entityIn.getRotationYawHead() * 100) / 360, false);
@@ -37,10 +38,10 @@ public class RotationTester extends ItemBase
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
+            stack.addEnchantment(Enchantment.getEnchantmentByLocation("liborion:debug_tool"), 1);
         tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
-        tooltip.add(TextFormatting.WHITE + "Rotation Yaw shows your rotationYawHead parameter");
-        tooltip.add(TextFormatting.WHITE + "Math shows (rotationYawHead * 100) / 360 equation");
+        tooltip.add(TextFormatting.WHITE + "Rotation Yaw shows your " + TextFormatting.YELLOW + "rotationYawHead" + TextFormatting.WHITE + " parameter");
+        tooltip.add(TextFormatting.WHITE + "Math shows " + TextFormatting.YELLOW + "(rotationYawHead * 100) / 360" + TextFormatting.WHITE +" equation");
         tooltip.add(TextFormatting.WHITE + "By right clicking on any entity it will show it's rotation values");
     }
 

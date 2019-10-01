@@ -5,13 +5,18 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
-import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class OrionMultiBlocks
@@ -66,7 +71,7 @@ public class OrionMultiBlocks
             {
                 for(Path p : paths)
                 {
-                    String j[] = new String[] {""};
+                    String[] j = new String[] {""};
                     BufferedReader reader;
                     if(isJar)
                         reader = new BufferedReader(new InputStreamReader(mod.getClass().getResourceAsStream(p.toString()), StandardCharsets.UTF_8));

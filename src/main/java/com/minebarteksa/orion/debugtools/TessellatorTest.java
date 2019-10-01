@@ -47,7 +47,7 @@ public class TessellatorTest extends TileEntityBlockBase<TessellatorTest.TTTE> i
     public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
+            stack.addEnchantment(Enchantment.getEnchantmentByLocation("liborion:debug_tool"), 1);
         tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
         tooltip.add(TextFormatting.WHITE + "For now, just a Tessellator test");
         TESR t = new TESR();

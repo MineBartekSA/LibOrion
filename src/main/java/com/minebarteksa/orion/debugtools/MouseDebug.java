@@ -1,8 +1,8 @@
 package com.minebarteksa.orion.debugtools;
 
 import com.minebarteksa.orion.Orion;
-import com.minebarteksa.orion.events.OrionEvent;
 import com.minebarteksa.orion.events.IOrionListener;
+import com.minebarteksa.orion.events.OrionEvent;
 import com.minebarteksa.orion.events.OrionMouseEvents;
 import com.minebarteksa.orion.items.ItemBase;
 import net.minecraft.client.Minecraft;
@@ -14,6 +14,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class MouseDebug extends ItemBase implements IOrionListener
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
+            stack.addEnchantment(Enchantment.getEnchantmentByLocation("liborion:debug_tool"), 1);
         if(!isRegistered)
         {
             OrionMouseEvents.LC.addListener(this);
@@ -51,7 +52,7 @@ public class MouseDebug extends ItemBase implements IOrionListener
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         if(!stack.isItemEnchanted())
-            stack.addEnchantment(Enchantment.getEnchantmentByID(19), 50);
+            stack.addEnchantment(Enchantment.getEnchantmentByLocation("liborion:debug_tool"), 1);
         tooltip.add(TextFormatting.YELLOW + "LibOrion Debug Tool!");
         tooltip.add(TextFormatting.WHITE + "This tools tracks the count of clicks and scroll direction");
         tooltip.add(TextFormatting.WHITE + "It uses LibOrion's own easy Event system");
