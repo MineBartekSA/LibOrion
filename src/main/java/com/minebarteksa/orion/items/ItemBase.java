@@ -1,20 +1,22 @@
 package com.minebarteksa.orion.items;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.lang.annotation.Inherited;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBase extends Item
 {
 	protected String name;
 	protected String modelDomain;
+
+	public ItemBase(String name, String modelDomain, Item.ToolMaterial material)
+	{
+		this(name, modelDomain);
+		setMaxDamage(material.getMaxUses()); // ????
+	}
 
 	public ItemBase(String name, String modelDomain)
 	{

@@ -1,12 +1,16 @@
 package com.minebarteksa.orion.debugtools;
 
 import com.minebarteksa.orion.Orion;
+import com.minebarteksa.orion.events.IOrionListener;
+import com.minebarteksa.orion.events.OrionEvent;
+import com.minebarteksa.orion.events.OrionMouseEvents;
 import com.minebarteksa.orion.items.ItemBase;
 import com.minebarteksa.orion.particle.OrionParticles;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -21,10 +25,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
-public class ParticleTester extends ItemBase
+public class ParticleTester extends ItemBase implements IOrionListener
 {
     private int partId = 0;
     private int[] crashId = { 36, 37, 38, 40, 46 };
+    private boolean isReg;
+    private boolean lc;
 
     public ParticleTester() { super("particle_tester", Orion.ModID); }
 
@@ -33,6 +39,27 @@ public class ParticleTester extends ItemBase
     {
         super.setCreativeTab(tab);
         return this;
+    }
+
+    @Override
+    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+    {
+        if (!isReg)
+        {
+            OrionMouseEvents.LC.addListener(this);
+            isReg = true;
+        }
+        if (lc)
+        {
+            if (entityIn.isSneaking())
+                if (partId == 0)
+                    partId = OrionParticles.getMaxIDValue();
+                else
+                    partId--;
+            Minecraft.getMinecraft().ingameGUI.setOverlayMessage("Current particle: " + OrionParticles.getParticleNameByID(partId), false);
+            Orion.log.info("Changed the particle to: " + OrionParticles.getParticleNameByID(partId) + ". ID: " + partId);
+            lc = false;
+        }
     }
 
     @Override
@@ -87,5 +114,12 @@ public class ParticleTester extends ItemBase
             if(crash == id)
                 return true;
         return false;
+    }
+
+    @Override
+    public void onOrionEvent(OrionEvent ev)
+    {
+        if(ev instanceof OrionMouseEvents.LeftClick && ((OrionMouseEvents.LeftClick)ev).start)
+            lc = true;
     }
 }

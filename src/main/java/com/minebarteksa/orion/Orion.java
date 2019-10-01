@@ -7,13 +7,16 @@ import com.minebarteksa.orion.events.OrionMouseEvents;
 import com.minebarteksa.orion.multiblock.OrionMultiBlocks;
 import com.minebarteksa.orion.network.OrionPacketHandler;
 import com.minebarteksa.orion.network.PacketRegister;
+import com.minebarteksa.orion.particle.ParticleRegister;
 import com.minebarteksa.orion.potion.OrionPotion;
 import com.minebarteksa.orion.proxy.CommonProxy;
 import net.minecraft.block.Block;
+import net.minecraft.client.particle.ParticleFlame;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.MouseEvent;
@@ -52,6 +55,7 @@ public class Orion
     public static RotationTester rt = new RotationTester();
     public static MouseDebug md = new MouseDebug();
     public static DebugBlock db = new DebugBlock();
+    public static DebugBase dBase = new DebugBase();
     public static InfoProviderTester ipt = new InfoProviderTester();
     public static TessellatorTest tt = new TessellatorTest();
     public static TessellatorTest.TESR ttt = new TessellatorTest.TESR();
@@ -60,6 +64,7 @@ public class Orion
     @Mod.EventHandler
     public void construction(FMLConstructionEvent ev)
     {
+        proxy.construction(ev);
         try { OrionDownloader.INSTANCE = new OrionDownloader(); }
         catch (Exception e) { log.error(e); }
     }
@@ -70,12 +75,13 @@ public class Orion
         log = ev.getModLog();
         proxy.preInit(ev);
         FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "com.minebarteksa.orion.integrations.TOPIntegration$GetTheOneProbe");
-        OrionRegistry.register(pt, rt, md, ipt);
+        OrionRegistry.register(pt, rt, md, ipt, dBase);
         OrionRegistry.register(db, tt);
         OrionRegistry.register(ttt);
         OrionRegistry.register(tp = new OrionPotion());
         OrionRegistry.register(new PacketRegister(OrionPacketHandler.PotionPacket.PotionPacketHandler.class, OrionPacketHandler.PotionPacket.class, Side.SERVER));
         OrionRegistry.register(new EnchantmentBase("debug_tool", Enchantment.Rarity.VERY_RARE).setCurse());
+        OrionRegistry.register(new ParticleRegister(new ResourceLocation(ModID, "fireTest"), new ParticleFlame.Factory()));
         OrionMultiBlocks.autoRegister();
     }
 
