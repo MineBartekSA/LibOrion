@@ -1,6 +1,7 @@
 package com.minebarteksa.orion.proxy;
 
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -8,6 +9,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 @SuppressWarnings("deprecation")
 public class CommonProxy
 {
+    public void construction(FMLConstructionEvent ev)
+    {
+        //
+    }
+
     public void preInit(FMLPreInitializationEvent ev)
     {
         //

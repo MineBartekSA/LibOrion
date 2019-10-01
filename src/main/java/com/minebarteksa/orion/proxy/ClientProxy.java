@@ -3,12 +3,19 @@ package com.minebarteksa.orion.proxy;
 import com.minebarteksa.orion.Orion;
 import com.minebarteksa.orion.particle.OrionParticles;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ClientProxy extends CommonProxy
 {
+    @Override
+    public void construction(FMLConstructionEvent ev)
+    {
+        super.construction(ev);
+    }
+
     @Override
     public void preInit(FMLPreInitializationEvent ev)
     {
@@ -23,6 +30,7 @@ public class ClientProxy extends CommonProxy
         Orion.registry.registerTESRS();
         Orion.registry.registerEntityRenderers();
         OrionParticles.init();
+        Orion.registry.registerParticles();
     }
 
     @Override

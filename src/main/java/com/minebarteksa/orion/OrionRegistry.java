@@ -7,6 +7,8 @@ import com.minebarteksa.orion.fluids.FluidBucket;
 import com.minebarteksa.orion.integrations.IOrionInfoProvider;
 import com.minebarteksa.orion.items.ItemBase;
 import com.minebarteksa.orion.network.PacketRegister;
+import com.minebarteksa.orion.particle.OrionParticles;
+import com.minebarteksa.orion.particle.ParticleRegister;
 import com.minebarteksa.orion.potion.MixRegister;
 import com.minebarteksa.orion.render.IEntityRegister;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -39,15 +41,16 @@ import java.util.List;
 
 public class OrionRegistry
 {
-    private static List<Block> blocksToRegister = new ArrayList<>();
-    private static List<ItemBase> itemsToRegister = new ArrayList<>();
-    private static List<SoundEvent> soundsToRegister = new ArrayList<>();
-    private static List<Potion> potionsToRegister = new ArrayList<>();
-    private static List<PacketRegister> packetsToRegister = new ArrayList<>();
-    private static List<Fluid> fluidsToRegister = new ArrayList<>();
-    private static List<Entity> entitiesToRegister = new ArrayList<>();
-    private static List<TESRRegister> tesrsToRegister = new ArrayList<>();
-    private static List<Enchantment> enchantmentsToRegister = new ArrayList<>();
+    private static List<Block> blocks = new ArrayList<>();
+    private static List<ItemBase> items = new ArrayList<>();
+    private static List<SoundEvent> sounds = new ArrayList<>();
+    private static List<Potion> potions = new ArrayList<>();
+    private static List<PacketRegister> packets = new ArrayList<>();
+    private static List<Fluid> fluids = new ArrayList<>();
+    private static List<Entity> entities = new ArrayList<>();
+    private static List<TESRRegister> tesrs = new ArrayList<>();
+    private static List<Enchantment> enchantments = new ArrayList<>();
+    private static List<ParticleRegister> particles = new ArrayList<>();
     private int nextPacketID;
 
     /**
@@ -58,23 +61,25 @@ public class OrionRegistry
      * Registration of a Block without these interfaces will still be attempted.
      * @param blocks should implement {@link BlockRegister} or {@link TERegister}
      */
-    public static void register(Block... blocks) { blocksToRegister.addAll(Arrays.asList(blocks)); }
+    public static void register(Block... blocks) { OrionRegistry.blocks.addAll(Arrays.asList(blocks)); }
 
-    public static void register(ItemBase... items) { itemsToRegister.addAll(Arrays.asList(items)); }
+    public static void register(ItemBase... items) { OrionRegistry.items.addAll(Arrays.asList(items)); }
 
-    public static void register(SoundEvent... sounds) { soundsToRegister.addAll(Arrays.asList(sounds)); }
+    public static void register(SoundEvent... sounds) { OrionRegistry.sounds.addAll(Arrays.asList(sounds)); }
 
-    public static void register(Potion... potions) { potionsToRegister.addAll(Arrays.asList(potions)); }
+    public static void register(Potion... potions) { OrionRegistry.potions.addAll(Arrays.asList(potions)); }
 
-    public static void register(PacketRegister... packets) { packetsToRegister.addAll(Arrays.asList(packets)); }
+    public static void register(PacketRegister... packets) { OrionRegistry.packets.addAll(Arrays.asList(packets)); }
 
-    public static void register(TESRRegister... tesrs) { tesrsToRegister.addAll(Arrays.asList(tesrs)); }
+    public static void register(TESRRegister... tesrs) { OrionRegistry.tesrs.addAll(Arrays.asList(tesrs)); }
 
-    public static void register(Entity... entitys) { entitiesToRegister.addAll(Arrays.asList(entitys)); }
+    public static void register(Entity... entitys) { entities.addAll(Arrays.asList(entitys)); }
 
-    public static void register(Fluid... fluids) { fluidsToRegister.addAll(Arrays.asList(fluids)); } // LOL No example on how to add one xD
+    public static void register(Fluid... fluids) { OrionRegistry.fluids.addAll(Arrays.asList(fluids)); } // LOL No example on how to add one xD
 
-    public static void register(Enchantment... enchantments) { enchantmentsToRegister.addAll(Arrays.asList(enchantments)); }
+    public static void register(Enchantment... enchantments) { OrionRegistry.enchantments.addAll(Arrays.asList(enchantments)); }
+
+    public static void register(ParticleRegister... particles) { OrionRegistry.particles.addAll(Arrays.asList(particles)); }
 
     public static void registerOreDictionary(String oreDictionaryName, Block... blocks) { for(Block b : blocks) OreDictionary.registerOre(oreDictionaryName, b); }
 
@@ -82,9 +87,9 @@ public class OrionRegistry
 
     public void registerItems(IForgeRegistry<Item> registry)
     {
-        for(ItemBase i : itemsToRegister)
+        for(ItemBase i : items)
             registry.register(i);
-        for(Block b : blocksToRegister)
+        for(Block b : blocks)
             if(b instanceof BlockRegister)
                 registry.register(((BlockRegister)b).getItemBlock());
             else
@@ -93,7 +98,7 @@ public class OrionRegistry
 
     public void registerBlocks(IForgeRegistry<Block> registry)
     {
-        for(Block b : blocksToRegister)
+        for(Block b : blocks)
         {
             registry.register(b);
             if(b instanceof TERegister)
@@ -104,22 +109,22 @@ public class OrionRegistry
     @SideOnly(Side.CLIENT)
     public void registerItemModels()
     {
-        for(ItemBase i : itemsToRegister)
+        for(ItemBase i : items)
             i.registerItemModel();
-        for(Block b : blocksToRegister)
+        for(Block b : blocks)
             if(b instanceof BlockRegister)
                 ((BlockRegister)b).registerItemModel();
             else
                 ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0, new ModelResourceLocation(b.getRegistryName().toString(), "inventory"));
     }
 
-    public void registerSounds(IForgeRegistry<SoundEvent> registry) { for(SoundEvent s : soundsToRegister) registry.register(s); }
+    public void registerSounds(IForgeRegistry<SoundEvent> registry) { for(SoundEvent s : sounds) registry.register(s); }
 
-    public void registerPotions(IForgeRegistry<Potion> registry) { for(Potion p : potionsToRegister) registry.register(p); }
+    public void registerPotions(IForgeRegistry<Potion> registry) { for(Potion p : potions) registry.register(p); }
 
     public void registerPotionTypes(IForgeRegistry<PotionType> registry)
     {
-        for(Potion p : potionsToRegister)
+        for(Potion p : potions)
         {
             if(p instanceof MixRegister)
             {
@@ -136,13 +141,13 @@ public class OrionRegistry
 
     public void registerPackets(SimpleNetworkWrapper instance)
     {
-        for(PacketRegister pr : packetsToRegister)
+        for(PacketRegister pr : packets)
             instance.registerMessage(pr.handler, pr.message, nextPacketID++, pr.side);
     }
 
     public void registerFluids()
     {
-        for(Fluid f : fluidsToRegister)
+        for(Fluid f : fluids)
         {
             FluidRegistry.registerFluid(f);
             if(f instanceof FluidBucket)
@@ -152,20 +157,20 @@ public class OrionRegistry
 
     public void registerTESRS()
     {
-        for(TESRRegister t : tesrsToRegister)
+        for(TESRRegister t : tesrs)
             ClientRegistry.bindTileEntitySpecialRenderer(t.getTileEntityClass(), t.getTESR());
     }
 
     public void registerEnchantments(IForgeRegistry<Enchantment> registry)
     {
-        for(Enchantment e : enchantmentsToRegister)
+        for(Enchantment e : enchantments)
             registry.register(e);
     }
 
     @Optional.Method(modid="waila")
     public void registerWailaProviders(IWailaRegistrar registry, IWailaDataProvider wdp)
     {
-        for(Block b : blocksToRegister)
+        for(Block b : blocks)
         {
             if(b instanceof IOrionInfoProvider)
             {
@@ -182,11 +187,9 @@ public class OrionRegistry
 
     public void registerEntityRenderers()
     {
-        for(Entity e : entitiesToRegister)
+        for(Entity e : entities)
             if(e instanceof IEntityRegister)
-            {
                 RenderingRegistry.registerEntityRenderingHandler(e.getClass(), ((IEntityRegister) e).getRenderer());
-            }
     }
 
     private boolean isIOIP(Class<?>[] interfaces)
@@ -195,5 +198,11 @@ public class OrionRegistry
             if(iface == IOrionInfoProvider.class)
                 return true;
         return false;
+    }
+
+    public void registerParticles()
+    {
+        for (ParticleRegister p : particles)
+            OrionParticles.registerParticle(p.name, p.factory);
     }
 }
