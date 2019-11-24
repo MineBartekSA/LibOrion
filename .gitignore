@@ -1,5 +1,6 @@
 run/
 build/
+out/
 LibOrion_Client.launch
 LibOrion_Server.launch
 .project
